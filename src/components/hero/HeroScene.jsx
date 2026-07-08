@@ -4,30 +4,39 @@ import { useRef, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { motion } from "framer-motion";
 import ParticleField from "./ParticleField";
-import React from "react";
 
-const HeroScene = () => {
+export default function HeroScene() {
   const sectionRef = useRef(null);
   const scrollProgress = useRef(0);
+  const mouse = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     function handleScroll() {
       if (!sectionRef.current) return;
-
       const { top, height } = sectionRef.current.getBoundingClientRect();
       const progress = Math.min(Math.max(-top / (height * 0.8), 0), 1);
       scrollProgress.current = progress;
     }
 
+    function handleMouseMove(e) {
+      mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    }
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
   }, []);
+
   return (
     <section ref={sectionRef} className="relative h-[150vh] bg-black">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <Canvas camera={{ position: [0, 0, 8], fov: 50 }}>
           <ambientLight intensity={0.5} />
-          <ParticleField scrollProgress={scrollProgress} />
+          <ParticleField scrollProgress={scrollProgress} mouse={mouse} />
         </Canvas>
 
         <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-6 text-center">
@@ -52,6 +61,4 @@ const HeroScene = () => {
       </div>
     </section>
   );
-};
-
-export default HeroScene;
+}

@@ -6,7 +6,7 @@ import * as THREE from "three";
 
 const COUNT = 1500;
 
-export default function ParticleField({ scrollProgress }) {
+export default function ParticleField({ scrollProgress, mouse }) {
   const pointsRef = useRef();
 
   const { randomPositions, gridPositions } = useMemo(() => {
@@ -17,7 +17,7 @@ export default function ParticleField({ scrollProgress }) {
       const i3 = i * 3;
       random[i3] = (Math.random() - 0.5) * 10;
       random[i3 + 1] = (Math.random() - 0.5) * 10;
-      random[i3 + 2] = (Math.random() - 0.5) * 10; 
+      random[i3 + 2] = (Math.random() - 0.5) * 10;
     }
 
     const gridSize = Math.ceil(Math.sqrt(COUNT));
@@ -38,7 +38,8 @@ export default function ParticleField({ scrollProgress }) {
     if (!pointsRef.current) return;
 
     const positions = pointsRef.current.geometry.attributes.position.array;
-    const progress = scrollProgress.current; 
+    const progress = scrollProgress.current;
+
     for (let i = 0; i < COUNT * 3; i++) {
       positions[i] = THREE.MathUtils.lerp(
         randomPositions[i],
@@ -49,7 +50,20 @@ export default function ParticleField({ scrollProgress }) {
 
     pointsRef.current.geometry.attributes.position.needsUpdate = true;
 
-    pointsRef.current.rotation.y = state.clock.elapsedTime * 0.03;
+    const autoRotation = state.clock.elapsedTime * 0.03;
+    const targetRotationY = autoRotation + mouse.current.x * 0.3;
+    const targetRotationX = mouse.current.y * 0.15;
+
+    pointsRef.current.rotation.y = THREE.MathUtils.lerp(
+      pointsRef.current.rotation.y,
+      targetRotationY,
+      0.05,
+    );
+    pointsRef.current.rotation.x = THREE.MathUtils.lerp(
+      pointsRef.current.rotation.x,
+      targetRotationX,
+      0.05,
+    );
   });
 
   return (
