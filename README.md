@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Xai — Intelligence Workspace
 
-## Getting Started
+A high-fidelity, single-page interactive product experience built for the RacoAI Frontend Challenge. The experience visually narrates how raw data becomes structured intelligence, actionable insight, and automation — using custom motion, 3D geometry, and scroll-driven interaction.
 
-First, run the development server:
+**Live Demo:** [https://xai-intelligence-workspace-tan.vercel.app/]
+
+
+---
+
+## Overview
+
+Xai — Intelligence Workspace is designed to feel calm, technically confident, and unmistakably "AI product" rather than marketing fluff. The page takes the user through a single narrative arc:
+
+> Raw data → Structured intelligence → Actionable insight → AI automation
+
+Each section on the page represents one stage of that journey, expressed through motion and geometry rather than static illustration.
+
+### Sections
+
+1. **Hero — Data to Intelligence**
+   A field of 1,500 particles begins in a chaotic, randomly distributed state (raw data) and morphs into a clean structured grid as the user scrolls, built with Three.js / React Three Fiber. Camera also responds to cursor movement for a subtle parallax effect.
+
+2. **Interactive Insight Flow**
+   Three stages — Ingest Data, Analyze with AI, Generate Insight — animate into view on scroll using Framer Motion, connected by a progress line that fills in sync with scroll position.
+
+3. **Intelligence Dashboard Preview**
+   A mock product UI with a sidebar, tabbed navigation (Overview / Automations / Reports), stat cards, a live-style line chart (Recharts), and a data table — each tab swaps in fully distinct content with smooth enter/exit transitions.
+
+4. **Signature Interaction — Chaos, Resolved**
+   A distorted, organic 3D core (built with React Three Fiber + drei's `MeshDistortMaterial`) gradually resolves into a smooth, structured sphere as the user scrolls, with an accompanying color shift from violet to indigo — the visual metaphor for "chaotic data becoming resolved intelligence."
+
+---
+
+## Tech Stack
+
+| Purpose            | Technology                                  |
+|--------------------|----------------------------------------------|
+| Framework          | Next.js (App Router)                        |
+| UI Library         | React                                        |
+| Styling            | Tailwind CSS v4                              |
+| UI Motion          | Framer Motion                                |
+| 3D Rendering       | Three.js, React Three Fiber, @react-three/drei |
+| Charts             | Recharts                                     |
+| Icons              | lucide-react                                 |
+
+No backend is used — all dashboard data is static/mock data as permitted by the brief.
+
+
+## Running Locally
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/MdShariyar56/xai-intelligence-workspace
+cd xai-intelligence-workspace
+
+# 2. Install dependencies
+npm install
+
+# 3. Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Key Animation & Interaction Decisions
 
-## Learn More
+- **Scroll progress is tracked via `useRef`, not `useState`**, in the Hero and Signature sections. This avoids re-rendering the React component tree on every scroll event — the 3D scene updates directly inside `useFrame`, which keeps the animation performant at 60fps.
+- **`lerp` (linear interpolation)** is used throughout — for particle positions, rotation, scale, and color — instead of hard jumps, so every transformation feels smooth and physically grounded rather than mechanical.
+- **Sticky sections** (`position: sticky` with an oversized parent height) are used to give scroll-driven 3D animations enough scroll distance to play out fully before the next section appears.
+- **Framer Motion's `layoutId`** powers the tab indicator in the Dashboard Preview, letting the active-tab underline animate between positions with zero manual keyframe coding.
+- **Mouse parallax** in both the Hero and Signature sections is intentionally subtle and lerped, so it reads as ambient depth rather than a distracting effect.
 
-To learn more about Next.js, take a look at the following resources:
+A full walkthrough of these decisions is available in the video linked at the top of this README.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Design Philosophy
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The goal throughout was restraint over spectacle — motion is used only where it clarifies the product narrative (data becoming structured, insight being generated), never as decoration. Typography, spacing, and dark-mode color choices were kept deliberately calm and professional, in line with the Stripe / Linear / Vercel-level polish referenced in the brief.
