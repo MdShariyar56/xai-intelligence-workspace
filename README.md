@@ -6,6 +6,10 @@ A high-fidelity, single-page interactive product experience built for the RacoAI
 
 **Figma Design:** [https://www.figma.com/design/c9K6VPLAHT9ueCxLN0eOG0/Untitled?node-id=0-1&t=xpmMuBolS6RoTPKz-1]
 
+**Product Documentation:** [https://docs.google.com/document/d/1eqQBfc2vYrabG4gPwc5oDH29enkYPoP7i70WC4ne7Jo/edit?usp=sharing]
+
+**Walkthrough Video:** [https://www.loom.com/share/c4995216981c4334a636eb29d48169e7]       
+
 ---
 
 ## Overview
