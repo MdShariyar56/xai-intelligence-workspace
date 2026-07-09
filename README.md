@@ -4,6 +4,7 @@ A high-fidelity, single-page interactive product experience built for the RacoAI
 
 **Live Demo:** [https://xai-intelligence-workspace-tan.vercel.app/]
 
+**Figma Design:** [https://www.figma.com/design/c9K6VPLAHT9ueCxLN0eOG0/Untitled?node-id=0-1&t=xpmMuBolS6RoTPKz-1]
 
 ---
 
